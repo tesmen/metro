@@ -1,0 +1,64 @@
+<script src="angular.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<style>
+    .station-mark {
+        position: absolute;
+        border: 1px solid gray;
+        /*width: 10px;*/
+        /*height:  10px;*/
+    }
+
+    #map {
+        position: relative;
+    }
+</style>
+
+<center>Hi there, this is The Metro</center>
+
+<div class="container" ng-app="metroApp">
+    <div class="row" ng-controller="mapCtrl">
+        <div class="col-sm-9 well" >
+            <div class="row" style="min-height: 500px" id="map">
+                <div class="col-xs-12">
+                    <div ng-repeat="s in stations" class="station-mark" ng-style="{top:s.y, left:s.x}">{{$index}}</div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <div ng-repeat="s in stations">station {{s.x}} {{s.y}}</div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-xs-3 ">
+            2
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var x = 0;
+
+    function mapCtrl($scope) {
+        $scope.stations = [];
+
+        $scope.createStation = function (x, y) {
+            $scope.stations.push({x: x, y: y})
+        };
+
+
+        $('#map').on('click', function (event) {
+            $scope.createStation(event.offsetX, event.offsetY);
+            $scope.$digest();
+        });
+    }
+
+    angular.module('metroApp', [])
+        .controller('mapCtrl', mapCtrl);
+</script>
